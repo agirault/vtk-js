@@ -970,6 +970,12 @@ function vtkOpenGLTexture(publicAPI, model) {
     // store the information, we will need it later
     model.volumeInfo = { min, max, width, height, depth };
 
+    // WebGL2
+    if (model.openGLRenderWindow.getWebgl2()) {
+      return publicAPI.create3DFromRaw(width, height, depth, 1, dataType, data);
+    }
+
+    // WebGL1
     let volCopyData = (outArray, outIdx, inValue, smin, smax) => {
       outArray[outIdx] = inValue;
     };
@@ -1005,26 +1011,6 @@ function vtkOpenGLTexture(publicAPI, model) {
       };
     }
 
-    // WebGL2
-    if (model.openGLRenderWindow.getWebgl2()) {
-      if (dataType !== VtkDataTypes.UNSIGNED_CHAR) {
-        const newArray = new Float32Array(numPixelsIn);
-        for (let i = 0; i < numPixelsIn; ++i) {
-          newArray[i] = (data[i] - min) / (max - min);
-        }
-        return publicAPI.create3DFromRaw(
-          width,
-          height,
-          depth,
-          1,
-          VtkDataTypes.FLOAT,
-          newArray
-        );
-      }
-      return publicAPI.create3DFromRaw(width, height, depth, 1, dataType, data);
-    }
-
-    // WebGL1
     // Now determine the texture parameters using the arguments.
     publicAPI.getOpenGLDataType(dataTypeToUse);
     publicAPI.getInternalFormat(dataTypeToUse, numCompsToUse);
