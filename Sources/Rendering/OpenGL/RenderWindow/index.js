@@ -400,6 +400,67 @@ function vtkOpenGLRenderWindow(publicAPI, model) {
             default:
               return model.context.RGBA8;
           }
+        case VtkDataTypes.CHAR:
+        case VtkDataTypes.SIGNED_CHAR:
+          switch (numComps) {
+            case 1:
+              return model.context.R8_SNORM;
+            case 2:
+              return model.context.RG8_SNORM;
+            case 3:
+              return model.context.RGB8_SNORM;
+            case 4:
+            default:
+              return model.context.RGBA8_SNORM;
+          }
+        case VtkDataTypes.UNSIGNED_SHORT:
+          switch (numComps) {
+            case 1:
+              return model.context.R16UI;
+            case 2:
+              return model.context.RG16UI;
+            case 3:
+              return model.context.RGB16UI;
+            case 4:
+            default:
+              return model.context.RGBA16UI;
+          }
+        case VtkDataTypes.SHORT:
+          switch (numComps) {
+            case 1:
+              return model.context.R16I;
+            case 2:
+              return model.context.RG16I;
+            case 3:
+              return model.context.RGB16I;
+            case 4:
+            default:
+              return model.context.RGBA16I;
+          }
+        case VtkDataTypes.UNSIGNED_INT:
+          switch (numComps) {
+            case 1:
+              return model.context.R32UI;
+            case 2:
+              return model.context.RG32UI;
+            case 3:
+              return model.context.RGB32UI;
+            case 4:
+            default:
+              return model.context.RGBA32UI;
+          }
+        case VtkDataTypes.INT:
+          switch (numComps) {
+            case 1:
+              return model.context.R32I;
+            case 2:
+              return model.context.RG32I;
+            case 3:
+              return model.context.RGB32I;
+            case 4:
+            default:
+              return model.context.RGBA32I;
+          }
         default:
         case VtkDataTypes.FLOAT:
           switch (numComps) {
@@ -412,6 +473,18 @@ function vtkOpenGLRenderWindow(publicAPI, model) {
             case 4:
             default:
               return model.context.RGBA16F;
+          }
+        case VtkDataTypes.DOUBLE:
+          switch (numComps) {
+            case 1:
+              return model.context.R32F;
+            case 2:
+              return model.context.RG32F;
+            case 3:
+              return model.context.RGB32F;
+            case 4:
+            default:
+              return model.context.RGBA32F;
           }
       }
     }

@@ -366,17 +366,39 @@ function vtkOpenGLTexture(publicAPI, model) {
   //----------------------------------------------------------------------------
   publicAPI.getDefaultFormat = (vtktype, numComps) => {
     if (model.openGLRenderWindow.getWebgl2()) {
-      switch (numComps) {
-        case 1:
-          return model.context.RED;
-        case 2:
-          return model.context.RG;
-        case 3:
-          return model.context.RGB;
-        case 4:
-          return model.context.RGBA;
+      switch (vtktype) {
         default:
-          return model.context.RGB;
+        case VtkDataTypes.UNSIGNED_CHAR:
+        case VtkDataTypes.CHAR:
+        case VtkDataTypes.SIGNED_CHAR:
+        case VtkDataTypes.FLOAT:
+        case VtkDataTypes.DOUBLE:
+          switch (numComps) {
+            case 1:
+              return model.context.RED;
+            case 2:
+              return model.context.RG;
+            case 3:
+              return model.context.RGB;
+            case 4:
+            default:
+              return model.context.RGBA;
+          }
+        case VtkDataTypes.UNSIGNED_SHORT:
+        case VtkDataTypes.SHORT:
+        case VtkDataTypes.UNSIGNED_INT:
+        case VtkDataTypes.INT:
+          switch (numComps) {
+            case 1:
+              return model.context.RED_INTEGER;
+            case 2:
+              return model.context.RG_INTEGER;
+            case 3:
+              return model.context.RGB_INTEGER;
+            case 4:
+            default:
+              return model.context.RGBA_INTEGER;
+          }
       }
     } else {
       switch (numComps) {
@@ -406,18 +428,18 @@ function vtkOpenGLTexture(publicAPI, model) {
     // DON'T DEAL with VTK_CHAR as this is platform dependent.
     if (model.openGLRenderWindow.getWebgl2()) {
       switch (vtkScalarType) {
-        // case VtkDataTypes.SIGNED_CHAR:
-        //   return model.context.BYTE;
+        case VtkDataTypes.SIGNED_CHAR:
+          return model.context.BYTE;
         case VtkDataTypes.UNSIGNED_CHAR:
           return model.context.UNSIGNED_BYTE;
-        // case VtkDataTypes.SHORT:
-        //   return model.context.SHORT;
-        // case VtkDataTypes.UNSIGNED_SHORT:
-        //   return model.context.UNSIGNED_SHORT;
-        // case VtkDataTypes.INT:
-        //   return model.context.INT;
-        // case VtkDataTypes.UNSIGNED_INT:
-        //   return model.context.UNSIGNED_INT;
+        case VtkDataTypes.SHORT:
+          return model.context.SHORT;
+        case VtkDataTypes.UNSIGNED_SHORT:
+          return model.context.UNSIGNED_SHORT;
+        case VtkDataTypes.INT:
+          return model.context.INT;
+        case VtkDataTypes.UNSIGNED_INT:
+          return model.context.UNSIGNED_INT;
         case VtkDataTypes.FLOAT:
         case VtkDataTypes.VOID: // used for depth component textures.
         default:
